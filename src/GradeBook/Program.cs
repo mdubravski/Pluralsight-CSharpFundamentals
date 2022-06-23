@@ -1,19 +1,18 @@
 ﻿using System;
 
-namespace Gradebook
+namespace GradeBook
 {
     class Program
     {
         static void Main(String[] args)
         {
-            float x = 34.1f; 
-            float y = 69.5f;
-            Console.WriteLine(x+y);
 
-            if(args.Length > 0) 
-                Console.WriteLine($"Hello {args[0]}!");
-            else
-                Console.WriteLine("Hello!");
+            var book = new Book("CS-400");
+            book.AddGrade(95.6);
+            book.AddGrade(88.4);
+            book.AddGrade(72.3);
+
+            book.ShowStats();
         }
     }
 }
