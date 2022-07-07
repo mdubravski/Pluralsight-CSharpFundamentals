@@ -3,13 +3,15 @@ namespace GradeBook
     public class Book
     {
         private List<double> grades;
-        private string name;
+        public string Name;
 
         public Book(string name)
         {
-            this.name = name;
+            Name = name;
             grades = new List<double>();
         }
+
+        public void
 
         public void AddGrade(double grade)
         {
@@ -17,21 +19,29 @@ namespace GradeBook
             grades.Add(grade);
         } 
 
+        public Stats GetStats()
+        {
+            Stats s = new();
+            s.High = double.MinValue;
+            s.Low = double.MaxValue;
+
+            
+            for(int i=0; i<grades.Count; i++)
+            {
+                s.High = Math.Max(grades[i], s.High);
+                s.Low= Math.Min(grades[i], s.Low);
+                s.Average = grades.Average();
+            }
+            
+            return s;
+        }
+
         public void ShowStats()
         {
-            double highGrade = double.MinValue;
-            double lowGrade = double.MaxValue;
-            double avgGrade = 0.0;
-            
-            foreach(var grade in grades)
-            {
-                highGrade = Math.Max(grade, highGrade);
-                lowGrade = Math.Min(grade, lowGrade);
-                avgGrade = grades.Average();
-            }
-            Console.WriteLine($"Highest Grade: {highGrade:N1}");
-            Console.WriteLine($"Lowest Grade: {lowGrade:N1}");
-            Console.WriteLine($"Average Grade: {avgGrade:N1}");
+            Stats s = GetStats();
+            Console.WriteLine($"Highest Grade: {s.High:N1}");
+            Console.WriteLine($"Lowest Grade: {s.Low:N1}");
+            Console.WriteLine($"Average Grade: {s.Average:N1}");
         }
     }
 }
