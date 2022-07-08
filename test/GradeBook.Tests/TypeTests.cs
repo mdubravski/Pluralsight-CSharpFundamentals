@@ -103,7 +103,7 @@ public class TypeTests
 
     private void SetName(Book book, string newName)
     {
-        book.Name = newName;
+        book.Name(newName);
     }
 
     private void GetBookSetName(Book book, string newName)

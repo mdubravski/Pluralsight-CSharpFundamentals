@@ -16,6 +16,7 @@ public class BookTests
         
         // assert
         Assert.Equal(result.ToString(), book.GetStats().ToString());
+        Assert.Equal('B', result.Letter);
     }
 
     [Fact]
@@ -24,4 +25,5 @@ public class BookTests
         var book = new Book("");
         Assert.Throws<Exception>(() => book.AddGrade(-1));
     }
+
 }
