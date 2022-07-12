@@ -2,8 +2,33 @@ namespace GradeBook.Tests;
 
 using System;
 using Xunit;
+
+public delegate string WriteLogDelegate(string logMessage);
+
 public class TypeTests
 {
+
+    int count = 0;
+    [Fact]
+    public void WriteLogDelegateCanPointToMethod()
+    {
+        WriteLogDelegate log = ReturnMessage;
+        log += ReturnMessage;
+        log+= ReturnMessage1;
+        var result = log("Hello");
+        Assert.Equal(3, count);
+    }
+
+    string ReturnMessage(string message){
+        count++;
+        return message;
+    }
+
+    string ReturnMessage1(string message){
+        count++;
+        return message.ToUpper();
+    }
+
     [Fact]
     public void StringsBehaveLikeValueTypes()
     {
@@ -51,33 +76,6 @@ public class TypeTests
     }
 
     [Fact]
-    public void CSharpCanPassByRef()
-    {
-        var book1 = GetBook("Book 1");
-        GetBookSetName(ref book1, "New Name");
-
-        Assert.Equal("New Name", book1.Name);
-    }
-
-    [Fact]
-    public void CSharpIsPassByValue()
-    {
-        var book1 = GetBook("Book 1");
-        GetBookSetName(book1, "New Name");
-
-        Assert.Equal("Book 1", book1.Name);
-    }
-
-    [Fact]
-    public void CanSetNameByReference()
-    {
-        var book1 = GetBook("Book 1");
-        SetName(book1, "New Name");
-
-        Assert.Equal("New Name", book1.Name);
-    }
-
-    [Fact]
     public void GetBookReturnsDifferentObject()
     {
         var book1 = GetBook("Book 1");
@@ -100,22 +98,4 @@ public class TypeTests
     {
         return new Book(name);
     }
-
-    private void SetName(Book book, string newName)
-    {
-        book.Name(newName);
-    }
-
-    private void GetBookSetName(Book book, string newName)
-    {
-        book = new Book(newName);
-        book.Name = newName;
-    }
-
-    private void GetBookSetName(ref Book book, string newName)
-    {
-        book = new Book(newName);
-        book.Name = newName;
-    }
-
 }

@@ -23,7 +23,7 @@ public class BookTests
     public void CanNotAddInvalidGrade()
     {
         var book = new Book("");
-        Assert.Throws<Exception>(() => book.AddGrade(-1));
+        Assert.Throws<ArgumentException>(() => book.AddGrade(-1));
     }
 
 }
