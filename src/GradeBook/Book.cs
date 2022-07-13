@@ -1,17 +1,48 @@
 namespace GradeBook
 {
-    public class Book
+    public class NamedObject 
+    {
+        public NamedObject(string name)
+        {
+            Name = name;
+        }
+
+        public string Name {get; set;}
+    }
+
+    public abstract class Book : NamedObject, IBook
+    {
+        public Book(string name) : base(name)
+        {
+        }
+
+        public virtual event GradeAddedDelegate GradeAdded;
+
+        public virtual abstract void AddGrade(double grade);
+
+        public virtual Stats GetStats()
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public interface IBook
+    {
+        void AddGrade(double grade);
+        Stats GetStats();
+        string Name {get;}
+        event GradeAddedDelegate GradeAdded;
+
+    }
+
+    public class InMemoryBook : Book, IBook
     {
         public delegate void GradeAddedDelegate(object sender, EventArgs args);
 
         const string CATEGORY = "Science";
         private List<double> grades;
-        public string Name 
-        {
-            get; 
-            private set;
-        }
-        public Book(string name)
+
+        public InMemoryBook(string name) : base(name)
         {
             Name = name;
             grades = new List<double>();
@@ -42,7 +73,7 @@ namespace GradeBook
             }
         }
 
-        public void AddGrade(double grade)
+        public override void AddGrade(double grade)
         {
             if(grade > 100 || grade < 0) throw new ArgumentException($"Invalid {nameof(grade)}");
             grades.Add(grade);
